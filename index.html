@@ -28,3 +28,83 @@
       display: block;
     }
     input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background: #ecf0f1;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calcule a nota necessária no 3º trimestre para atingir a média:</h1>
+
+  <div class="container">
+    <label for="nota1">Nota do 1° Trimestre (peso 2):</label>
+    <input type="number" id="nota1" step="0.1" min="0" max="10">
+
+    <label for="nota2">Nota do 2° Trimestre (peso 3):</label>
+    <input type="number" id="nota2" step="0.1" min="0" max="10">
+
+    <button onclick="calcularNota3()">Calcular Nota Necessária</button>
+
+    <!-- Resultado aparece aqui, dentro do container, abaixo do botão -->
+    <div class="resultado" id="resultadoArea">Informe as notas para calcular.</div>
+  </div>
+
+  <script>
+    function calcularNota3() {
+      const peso1 = 2;
+      const peso2 = 3;
+      const peso3 = 4;
+      const mediaDesejada = 7;
+
+      const nota1 = parseFloat(document.getElementById('nota1').value);
+      const nota2 = parseFloat(document.getElementById('nota2').value);
+      const resultadoArea = document.getElementById('resultadoArea');
+
+      if (isNaN(nota1) || isNaN(nota2)) {
+        resultadoArea.textContent = 'Por favor, informe as notas do 1º e 2º trimestre.';
+        return;
+      }
+
+      const somaPesos = peso1 + peso2 + peso3;
+      const parte1 = mediaDesejada * somaPesos;
+      const parte2 = (nota1 * peso1) + (nota2 * peso2);
+      const nota3Necessaria = (parte1 - parte2) / peso3;
+
+      if (nota3Necessaria > 10) {
+        resultadoArea.textContent = '❌ Não é possível atingir média 7, mesmo com nota 10 no 3° trimestre.';
+      } else if (nota3Necessaria <= 0) {
+        resultadoArea.textContent = '✅ Já atingiu média 7 sem precisar de pontos no 3° trimestre!';
+      } else {
+        resultadoArea.textContent = '📘 Você precisa tirar pelo menos ' + nota3Necessaria.toFixed(1).replace('.', ',') + ' no 3° trimestre para alcançar média 7.';
+      }
+    }
+  </script>
+</body>
+</html>
